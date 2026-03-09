@@ -35,14 +35,14 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
 
 export function generateTokens(userId: string, username: string) {
   const accessToken = jwt.sign(
-    { userId, username },
+    { userId, username } as object,
     process.env.JWT_SECRET!,
-    { expiresIn: (process.env.JWT_EXPIRES_IN ?? '15m') as string }
+    { expiresIn: 900 }
   );
   const refreshToken = jwt.sign(
-    { userId, username },
+    { userId, username } as object,
     process.env.JWT_REFRESH_SECRET!,
-    { expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN ?? '30d') as string }
+    { expiresIn: 2592000 }
   );
   return { accessToken, refreshToken };
 }
