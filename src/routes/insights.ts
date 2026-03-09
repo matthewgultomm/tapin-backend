@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { query, queryOne } from '../db/index.js';
 import { requireAuth } from '../middleware/auth.js';
 import { cacheGet, cacheSet } from '../db/redis.js';
-import type { InsightStats } from '../types/index.js';
+import type { InsightStats, Track } from '../types/index.js';
 
 const router = Router();
 
@@ -58,9 +58,9 @@ router.get('/stats', requireAuth, async (req: Request, res: Response) => {
     [userId]
   );
 
-  let mostPlayedTrack = null;
+  let mostPlayedTrack: Track | null = null;
   if (mostPlayedRow) {
-    mostPlayedTrack = await queryOne(
+    mostPlayedTrack = await queryOne<Track>(
       'SELECT id, title, artist, album, artwork_url FROM tracks WHERE id = $1',
       [mostPlayedRow.track_id]
     );

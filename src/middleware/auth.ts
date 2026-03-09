@@ -37,12 +37,12 @@ export function generateTokens(userId: string, username: string) {
   const accessToken = jwt.sign(
     { userId, username },
     process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN ?? '15m' }
+    { expiresIn: (process.env.JWT_EXPIRES_IN ?? '15m') as string }
   );
   const refreshToken = jwt.sign(
     { userId, username },
     process.env.JWT_REFRESH_SECRET!,
-    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '30d' }
+    { expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN ?? '30d') as string }
   );
   return { accessToken, refreshToken };
 }
